@@ -4,45 +4,50 @@
   </div-->
 <template lang="pug">
   #app
-    p {{ msg }}
-    input(v-model="name")
-    input(v-model="lastName")
-    p {{ fullName }}
-
-    button(v-on:click="format") Format
-    p {{ formattedName }}
+    section.section
+      nav.nav.has-shadow
+        div.container
+          input.input.is-large(type="text", placeholder="Buscar canciones", v-model="searchQuery")
+          a.button.is-info.is-large(@click="search") Buscar
+          a.button.is-danger.is-large &times;
+          p
+            small {{ searchMessage }}
+        .container.results
+          .columns
+            .column(v-for="t in tracks") {{ t.name }} - {{ t.artist }}
 
 </template>
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 
+const tracks = [
+  { name: 'Muchacha', artist: 'Luis Alberto Spinetta' },
+  { name: 'Pies descalzos', artist: 'Shakira' },
+  { name: 'Soldadito marinero', artist: 'Fito' }
+]
+
 export default {
   name: 'App',
   data () {
     return {
-      msg: 'Hola',
-      name: '',
-      lastName: '',
-      formattedName: ''
+      searchQuery: '',
+      tracks: []
     }
   },
 
   computed: {
-    fullName () {
-      return this.name + ' ' + this.lastName
+    searchMessage () {
+      return `Encontrados: ${this.tracks.length}`
     }
   },
 
   watch: {
-    name () {
-      console.log(this.name)
-    }
   },
 
   methods: {
-    format () {
-      this.formattedName = this.name.split(' ').join('-').toUpperCase()
+    search () {
+      this.tracks = tracks
     }
   },
 
@@ -53,11 +58,8 @@ export default {
 
 <style lang="scss">
 @import "./scss/main.scss";
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
+
+.results {
+  margin-top: 50px;
 }
 </style>
