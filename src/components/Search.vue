@@ -5,10 +5,13 @@
 <template lang="pug">
   main
 
-    pm-notification(v-show="showNotification")
-      p(slot="body") No se encontraron resultados
+    transition(name="move")
+      pm-notification(v-show="showNotification")
+        p(slot="body") No se encontraron resultados
 
-    pm-loader(v-show="isLoading")
+    transition(name="move")
+      pm-loader(v-show="isLoading")
+
     section.section(v-show="!isLoading")
       nav.nav
         .container
@@ -16,6 +19,7 @@
             type="text",
             placeholder="Buscar canciones",
             v-model="searchQuery"
+            v-on:keyup.enter="search"
           )
           a.button.is-info.is-large(@click="search") Buscar
           a.button.is-danger.is-large &times;
@@ -28,6 +32,7 @@
           .column.is-one-quarter(v-for="t in tracks")
             //- comunicación PADRE-HIJO: :tract="t"
             pm-track(
+              v-blur="t.preview_url"
               :class="{ 'is-active': t.id === selectedTrack }",
               :track="t",
               @select="setSelectedTrack"
