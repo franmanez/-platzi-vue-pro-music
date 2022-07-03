@@ -17,4 +17,9 @@ trackService.search = async (q) => {
   }
 }
 
+trackService.getById = async function (id) {
+  return await axios.get(`${configService.apiUrl}/tracks/${id}`)
+    .then(res => res.data)
+}
+
 export default trackService
