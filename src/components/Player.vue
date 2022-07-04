@@ -10,10 +10,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Player',
-  data () {
+  computed: {
+    ...mapState(['track'])
+  }
+  /* data () {
     return {
       track: {}
     }
@@ -24,7 +29,7 @@ export default {
     this.$bus.$on('set-track', (track) => {
       this.track = track
     })
-  }
+  } */
 }
 </script>
 
